@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 // middleware
 app.use(cors());
@@ -32,6 +32,12 @@ async function run() {
 
     app.get('/todo',async(req,res)=>{
       const result = await todoBooking.find().toArray()
+      res.send(result)
+    })
+    app.delete('/todo/:id',async(req,res)=>{
+      const id = req.params.id;
+      const filterId = {_id:ObjectId(id)}
+      const result = await todoBooking.deleteOne(filterId)
       res.send(result)
     })
   } finally {
