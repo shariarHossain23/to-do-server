@@ -49,6 +49,30 @@ async function run() {
       const result = await todoBooking.updateOne(filterId,updateDoc)
       res.send(result)
     })
+    app.put('/todo/:id',async(req,res)=>{
+      const id = req.params.id;
+      const filterId = {_id:ObjectId(id)}
+      const updateDoc = {
+        $set: {
+            status:"completed",
+            updated:true
+        },
+      };
+      const result = await todoBooking.updateOne(filterId,updateDoc)
+      res.send({result,message:"true"})
+    })
+    app.get('/todo/:id',async(req,res)=>{
+      const id = req.params.id;
+      const filterId = {_id:ObjectId(id)}
+      const updateDoc = {
+        $set: {
+            status:"completed",
+            updated:true
+        },
+      };
+      const result = await todoBooking.updateOne(filterId,updateDoc)
+      res.send({result,message:"true"})
+    })
 
 
     app.delete('/todo/:id',async(req,res)=>{
