@@ -36,6 +36,21 @@ async function run() {
     })
     
     
+    app.patch('/todo/:id',async(req,res)=>{
+      const id = req.params.id;
+      const updateData = req.body;
+      const filterId = {_id:ObjectId(id)}
+      const updateDoc = {
+        $set: {
+            name:updateData.name,
+            desc:updateData.desc
+        },
+      };
+      const result = await todoBooking.updateOne(filterId,updateDoc)
+      res.send(result)
+    })
+
+
     app.delete('/todo/:id',async(req,res)=>{
       const id = req.params.id;
       const filterId = {_id:ObjectId(id)}
