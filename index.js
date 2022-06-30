@@ -30,8 +30,10 @@ async function run() {
 
 
 
-    app.get('/todo',async(req,res)=>{
-      const result = await todoBooking.find().toArray()
+    app.get('/todo/:email',async(req,res)=>{
+      const email = req.params.email;
+      const filter = {email:email}
+      const result = await todoBooking.find(filter).toArray()
       res.send(result)
     })
     
@@ -52,26 +54,24 @@ async function run() {
     app.put('/todo/:id',async(req,res)=>{
       const id = req.params.id;
       const filterId = {_id:ObjectId(id)}
+      const options = { upsert: true };
       const updateDoc = {
         $set: {
             status:"completed",
             updated:true
         },
       };
-      const result = await todoBooking.updateOne(filterId,updateDoc)
+      const result = await todoBooking.updateOne(filterId,updateDoc,options)
       res.send({result,message:"true"})
     })
-    app.get('/todo/:id',async(req,res)=>{
-      const id = req.params.id;
-      const filterId = {_id:ObjectId(id)}
-      const updateDoc = {
-        $set: {
-            status:"completed",
-            updated:true
-        },
-      };
-      const result = await todoBooking.updateOne(filterId,updateDoc)
-      res.send({result,message:"true"})
+
+    // get completed api
+    app.get('/todocompleted/:email',async(req,res)=>{
+      const email = req.params.email;
+      const filter = {email:email}
+      const completed = await todoBooking.find(filter).toArray()
+      res.send(completed)
+      
     })
 
 
